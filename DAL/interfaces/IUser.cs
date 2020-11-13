@@ -22,5 +22,7 @@ namespace DAL
         User Auth(User user);
 
         void LoadUsers(List<User> users);
+
+        void UpdatePassword(string name, string password);
     }
 }

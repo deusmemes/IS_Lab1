@@ -79,6 +79,13 @@ namespace Services
             return res;
         }
 
+        public void UpdatePassword(string name, string password)
+        {
+            var user = GetUser(name);
+            if (user == null) throw new Exception("Пользователь не найден");
+            user.Password = HashService.Md4Hash(password);
+        }
+
         public void LoadUsers(List<User> users)
         {
             _data.Users.Clear();

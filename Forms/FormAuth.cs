@@ -7,17 +7,16 @@ namespace Forms
 {
     public partial class FormAuth : Form
     {
-        private readonly FileService _fileService;
         private readonly UserService _userService;
         private int countAuth = 0;
 
         public FormAuth()
         {
             InitializeComponent();
-            _fileService = new FileService();
+            var fileService = new FileService();
             _userService = new UserService();
 
-            _userService.LoadUsers(_fileService.GetDataFromFile(FilePathsEnum.TEMP, false));
+            _userService.LoadUsers(fileService.GetDataFromFile(FilePathsEnum.TEMP, false));
         }
 
         private void FormAuth_Load(object sender, EventArgs e)
@@ -36,7 +35,7 @@ namespace Forms
 
             if (string.IsNullOrEmpty(name))
             {
-                MessageBox.Show("Не все поля заполнены", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorMessage("Не все поля заполнены");
                 return;
             }
 
@@ -65,9 +64,10 @@ namespace Forms
 
                     if (result == DialogResult.OK)
                     {
-                        user.Password = HashService.Md4Hash(passwordForm.Password);
-                        _userService.UpdateUser(user);
-                        _userService.Auth(user);
+                        //user.Password = HashService.Md4Hash(passwordForm.Password);
+                        _userService.UpdatePassword(user.Name, passwordForm.Password);
+                        var updatedUser = _userService.GetUser(user.Name);
+                        _userService.Auth(updatedUser);
                         new UsersForm().Show();
                         countAuth = 0;
                     }
@@ -88,7 +88,7 @@ namespace Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorMessage(ex.Message);
                 countAuth++;
             }
         }
@@ -96,6 +96,11 @@ namespace Forms
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private static void ErrorMessage(string text)
+        {
+            MessageBox.Show(text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

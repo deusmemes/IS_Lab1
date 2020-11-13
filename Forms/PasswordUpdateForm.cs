@@ -33,19 +33,19 @@ namespace Forms
 
             if (string.IsNullOrEmpty(oldPassword) || string.IsNullOrEmpty(newPassword) || string.IsNullOrEmpty(repeatPassword))
             {
-                MessageBox.Show("Не все поля заполнены", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorMessage("Не все поля заполнены");
                 return;
             }
 
             if (!_user.Password.Equals(HashService.Md4Hash(oldPassword)))
             {
-                MessageBox.Show("Неверно введен текущий пароль", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorMessage("Неверно введен текущий пароль");
                 return;
             }
 
             if (!newPassword.Equals(repeatPassword))
             {
-                MessageBox.Show("Пароли не совпадают", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorMessage("Пароли не совпадают");
                 return;
             }
 
@@ -55,14 +55,19 @@ namespace Forms
                 const string reg = @"^[^\s\d]*$";
                 if (!Regex.IsMatch(newPassword, reg))
                 {
-                    MessageBox.Show("Пароль не соответствует ограничению", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ErrorMessage("Пароль не соответствует ограничению");
                     return;
                 }
             }
 
-            _user.Password = HashService.Md4Hash(newPassword);
-            _service.UpdateUser(_user);
+            //_user.Password = HashService.Md4Hash(newPassword);
+            _service.UpdatePassword(_user.Name, newPassword);
             DialogResult = DialogResult.OK;
+        }
+
+        private static void ErrorMessage(string text)
+        {
+            MessageBox.Show(text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

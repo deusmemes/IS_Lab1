@@ -14,6 +14,8 @@ namespace Services
     {
         private readonly DES _des;
         private const string Key = "secret";
+        private const string RandomValue = "lc";
+
         private static Random _rnd;
 
         public FileService()
@@ -21,9 +23,7 @@ namespace Services
             _rnd = new Random();
 
             _des = DES.Create();
-
-            var random = RandomString(2);
-            var bytes = Encoding.ASCII.GetBytes(Key + "tt");
+            var bytes = Encoding.ASCII.GetBytes(Key + RandomValue);
 
             _des.Key = bytes;
             _des.IV = bytes;
@@ -131,9 +131,9 @@ namespace Services
                 des.CreateDecryptor(_des.Key, _des.IV),
                 CryptoStreamMode.Read);
             var streamReader = new StreamReader(cs);
-            var input = streamReader.ReadLine();
+            var json = streamReader.ReadLine();
 
-            return input;
+            return json;
         }
 
         private void SaveData()

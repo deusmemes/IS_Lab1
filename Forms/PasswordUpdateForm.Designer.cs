@@ -59,6 +59,7 @@
             // 
             this.textBoxNew.Location = new System.Drawing.Point(110, 223);
             this.textBoxNew.Name = "textBoxNew";
+            this.textBoxNew.PasswordChar = '*';
             this.textBoxNew.Size = new System.Drawing.Size(251, 26);
             this.textBoxNew.TabIndex = 6;
             // 
@@ -76,6 +77,7 @@
             // 
             this.textBoxPassword.Location = new System.Drawing.Point(110, 121);
             this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.PasswordChar = '*';
             this.textBoxPassword.Size = new System.Drawing.Size(251, 26);
             this.textBoxPassword.TabIndex = 7;
             // 
@@ -83,6 +85,7 @@
             // 
             this.textBoxRepeat.Location = new System.Drawing.Point(110, 323);
             this.textBoxRepeat.Name = "textBoxRepeat";
+            this.textBoxRepeat.PasswordChar = '*';
             this.textBoxRepeat.Size = new System.Drawing.Size(251, 26);
             this.textBoxRepeat.TabIndex = 6;
             // 
